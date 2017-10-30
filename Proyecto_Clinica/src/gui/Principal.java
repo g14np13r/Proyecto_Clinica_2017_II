@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import javax.swing.JLabel;
 
 public class Principal extends JFrame {
 
@@ -28,6 +29,7 @@ public class Principal extends JFrame {
 	private JMenuItem mntmMedicina;
 	private JMenu mnAyuda;
 	private JMenuItem mntmAcercaDeClnica;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -109,5 +111,10 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		lblNewLabel = new JLabel("ESTO DEMUESTRO QUE LA ACTUALIZACION FUE UN \u00C9XITO");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel.setBounds(76, 65, 508, 169);
+		contentPane.add(lblNewLabel);
 	}
 }
