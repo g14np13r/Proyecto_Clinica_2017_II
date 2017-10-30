@@ -30,6 +30,7 @@ public class Principal extends JFrame {
 	private JMenu mnAyuda;
 	private JMenuItem mntmAcercaDeClnica;
 	private JLabel lblNewLabel;
+	private JLabel lblSegundaActualizacion;
 
 	/**
 	 * Launch the application.
@@ -116,5 +117,10 @@ public class Principal extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel.setBounds(76, 65, 508, 169);
 		contentPane.add(lblNewLabel);
+		
+		lblSegundaActualizacion = new JLabel("SEGUNDA ACTUALIZACION");
+		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblSegundaActualizacion.setBounds(160, 193, 299, 21);
+		contentPane.add(lblSegundaActualizacion);
 	}
 }
