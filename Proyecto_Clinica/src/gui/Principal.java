@@ -29,7 +29,6 @@ public class Principal extends JFrame {
 	private JMenuItem mntmMedicina;
 	private JMenu mnAyuda;
 	private JMenuItem mntmAcercaDeClnica;
-	private JLabel lblNewLabel;
 	private JLabel lblSegundaActualizacion;
 
 	/**
@@ -113,12 +112,7 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("ESTO DEMUESTRO QUE LA ACTUALIZACION FUE UN \u00C9XITO");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel.setBounds(76, 65, 508, 169);
-		contentPane.add(lblNewLabel);
-		
-		lblSegundaActualizacion = new JLabel("SEGUNDA ACTUALIZACION");
+		lblSegundaActualizacion = new JLabel("3ra prueba");
 		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblSegundaActualizacion.setBounds(160, 193, 299, 21);
 		contentPane.add(lblSegundaActualizacion);
