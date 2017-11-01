@@ -137,46 +137,49 @@ public class Principal extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == mntmMedicina) {
-			MenuBar_Medicina(arg0);
+			MenuIt_Medicina(arg0);
 		}
 		if (arg0.getSource() == mntmPaciente) {
-			MenuBar_Paciente(arg0);
+			MenuIt_Paciente(arg0);
 		}
 		if (arg0.getSource() == mntmCama) {
-			MenuBar_Cama(arg0);
+			MenuIt_Cama(arg0);
 		}
 		if (arg0.getSource() == mntmAcercaDeClinica) {
-			MenuBar_AcercaDeClinica(arg0);
+			MenuIt_AcercaDeClinica(arg0);
 		}
 		if (arg0.getSource() == mntmSalir) {
-			MenuBar_Salir(arg0);
+			MenuIt_Salir(arg0);
 		}
 	}
 	public int salida() {
 		return JOptionPane.showConfirmDialog(this,
 			   "¿ Desea salir del programa ?", "                       Programa Clínica 1.0              ",  JOptionPane.OK_CANCEL_OPTION);
 	}
-	protected void MenuBar_Salir(ActionEvent arg0) {
+	protected void MenuIt_Salir(ActionEvent arg0) {
 		int out = salida();
 		if (out == 0)
 		System.exit(0);//cerrar software
 	}
-	protected void MenuBar_AcercaDeClinica(ActionEvent arg0) {
+	protected void MenuIt_AcercaDeClinica(ActionEvent arg0) {
 		Acerca_clinica ac = new Acerca_clinica();
 		ac.setLocationRelativeTo(this);
 		ac.setVisible(true);
 		
 	}
-	protected void MenuBar_Cama(ActionEvent arg0) {
-		CamaFRM cf = new CamaFRM();
+	protected void MenuIt_Cama(ActionEvent arg0) {
+		CamaDLG cf = new CamaDLG();
 		cf.setLocationRelativeTo(this);
 		cf.setVisible(true);
 	}
-	protected void MenuBar_Paciente(ActionEvent arg0) {
-		PacienteFRM pf = new PacienteFRM();
+	protected void MenuIt_Paciente(ActionEvent arg0) {
+		PacienteDLG pf = new PacienteDLG();
 		pf.setLocationRelativeTo(this);
 		pf.setVisible(true);
 	}
-	protected void MenuBar_Medicina(ActionEvent arg0) {
+	protected void MenuIt_Medicina(ActionEvent arg0) {
+		MedicinaDLG mf = new MedicinaDLG();
+		mf.setLocationRelativeTo(this);
+		mf.setVisible(true);
 	}
 }
