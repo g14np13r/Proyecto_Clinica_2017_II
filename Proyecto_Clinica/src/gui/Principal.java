@@ -33,7 +33,7 @@ public class Principal extends JFrame implements ActionListener {
 	private JMenuItem mntmPaciente;
 	private JMenuItem mntmMedicina;
 	private JMenu mnAyuda;
-	private JMenuItem mntmAcercaDeClnica;
+	private JMenuItem mntmAcercaDeClinica;
 	private JLabel lblNewLabel;
 
 	/**
@@ -57,7 +57,7 @@ public class Principal extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Principal() {
-		setTitle("SISTEMA DE INTERNAMIENTO Y LIQUIDACI\u00D3N");
+		setTitle("CL\u00CDNICA: SISTEMA DE INTERNAMIENTO Y LIQUIDACI\u00D3N");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/user.png")));
 		setDefaultCloseOperation(0);/*
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);Quitamos la acción de cerrar(x)*/
@@ -116,9 +116,10 @@ public class Principal extends JFrame implements ActionListener {
 		mnAyuda.setIcon(new ImageIcon(Principal.class.getResource("/img/acerca.png")));
 		menuBar.add(mnAyuda);
 		
-		mntmAcercaDeClnica = new JMenuItem("Acerca de Cl\u00EDnica");
-		mntmAcercaDeClnica.setIcon(new ImageIcon(Principal.class.getResource("/img/question.png")));
-		mnAyuda.add(mntmAcercaDeClnica);
+		mntmAcercaDeClinica = new JMenuItem("Acerca de Cl\u00EDnica");
+		mntmAcercaDeClinica.addActionListener(this);
+		mntmAcercaDeClinica.setIcon(new ImageIcon(Principal.class.getResource("/img/question.png")));
+		mnAyuda.add(mntmAcercaDeClinica);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -131,17 +132,26 @@ public class Principal extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 	}
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == mntmAcercaDeClinica) {
+			Bar_AcercaDeClinica(arg0);
+		}
 		if (arg0.getSource() == mntmSalir) {
-			Boton_Salir(arg0);
+			Bar_Salir(arg0);
 		}
 	}
 	public int salida() {
 		return JOptionPane.showConfirmDialog(this,
 			   "¿ Desea salir del programa ?", "                       Programa Clínica 1.0              ",  JOptionPane.OK_CANCEL_OPTION);
 	}
-	protected void Boton_Salir(ActionEvent arg0) {
+	protected void Bar_Salir(ActionEvent arg0) {
 		int out = salida();
 		if (out == 0)
 		System.exit(0);//cerrar software
+	}
+	protected void Bar_AcercaDeClinica(ActionEvent arg0) {
+		Acerca_clinica ac = new Acerca_clinica();
+		ac.setLocationRelativeTo(this);
+		ac.setVisible(true);
+		
 	}
 }
