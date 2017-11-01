@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
+import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
@@ -29,7 +31,7 @@ public class Principal extends JFrame {
 	private JMenuItem mntmMedicina;
 	private JMenu mnAyuda;
 	private JMenuItem mntmAcercaDeClnica;
-	private JLabel lblSegundaActualizacion;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -51,8 +53,9 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/user.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 785, 475);
+		setBounds(100, 100, 866, 466);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -112,13 +115,10 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblSegundaActualizacion = new JLabel("PRUEBA N\u00BA 7");
-		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		lblSegundaActualizacion.setBounds(97, 193, 362, 21);
-		contentPane.add(lblSegundaActualizacion);
-		
-		JLabel lblPruebaN = new JLabel("PRUEBA N\u00BA 88888888888888888888");
-		lblPruebaN.setBounds(159, 130, 199, 14);
-		contentPane.add(lblPruebaN);
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/portada.jpg")));
+		lblNewLabel.setBounds(0, 0, 850, 400);
+		contentPane.add(lblNewLabel);
 	}
 }
