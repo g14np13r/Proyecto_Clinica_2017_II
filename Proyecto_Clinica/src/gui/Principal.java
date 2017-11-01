@@ -112,8 +112,8 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblSegundaActualizacion = new JLabel("Ves esto menn?");
-		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblSegundaActualizacion = new JLabel("PRUEBA N\u00BA 7");
+		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		lblSegundaActualizacion.setBounds(97, 193, 362, 21);
 		contentPane.add(lblSegundaActualizacion);
 	}
