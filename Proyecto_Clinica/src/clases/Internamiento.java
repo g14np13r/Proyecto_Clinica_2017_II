@@ -19,9 +19,9 @@ public class Internamiento {
 	}
 	//Metodo 
 	public String detalleEstado(){
-			switch (estado) {
-			case 0: return "Alojado";
-			default:return "Pagado";
+		switch (estado) {
+		case 0: return "Alojado";
+		default:return "Pagado";
 		}
 	}
 

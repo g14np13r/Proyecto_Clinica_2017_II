@@ -16,8 +16,8 @@ public class Cama {
 	//Metodo
 	public String detalleEstado() {
 		switch (estado) {
-			case 0: return "Libre";
-			default: return "Ocupada";
+		case 0: return "Libre";
+		default: return "Ocupada";
 		}
 	}
 
