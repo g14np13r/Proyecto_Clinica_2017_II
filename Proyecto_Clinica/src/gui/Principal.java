@@ -83,13 +83,16 @@ public class Principal extends JFrame implements ActionListener {
 		menuBar.add(mnMantenimiento);
 		
 		mntmCama = new JMenuItem("Cama");
+		mntmCama.addActionListener(this);
 		mntmCama.setIcon(new ImageIcon(Principal.class.getResource("/img/cama2.JPG")));
 		mnMantenimiento.add(mntmCama);
 		
 		mntmPaciente = new JMenuItem("Paciente");
+		mntmPaciente.addActionListener(this);
 		mnMantenimiento.add(mntmPaciente);
 		
 		mntmMedicina = new JMenuItem("Medicina");
+		mntmMedicina.addActionListener(this);
 		mnMantenimiento.add(mntmMedicina);
 		
 		mnInternamiento = new JMenu("Internamiento");
@@ -133,26 +136,47 @@ public class Principal extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 	}
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == mntmMedicina) {
+			MenuBar_Medicina(arg0);
+		}
+		if (arg0.getSource() == mntmPaciente) {
+			MenuBar_Paciente(arg0);
+		}
+		if (arg0.getSource() == mntmCama) {
+			MenuBar_Cama(arg0);
+		}
 		if (arg0.getSource() == mntmAcercaDeClinica) {
-			Bar_AcercaDeClinica(arg0);
+			MenuBar_AcercaDeClinica(arg0);
 		}
 		if (arg0.getSource() == mntmSalir) {
-			Bar_Salir(arg0);
+			MenuBar_Salir(arg0);
 		}
 	}
 	public int salida() {
 		return JOptionPane.showConfirmDialog(this,
 			   "¿ Desea salir del programa ?", "                       Programa Clínica 1.0              ",  JOptionPane.OK_CANCEL_OPTION);
 	}
-	protected void Bar_Salir(ActionEvent arg0) {
+	protected void MenuBar_Salir(ActionEvent arg0) {
 		int out = salida();
 		if (out == 0)
 		System.exit(0);//cerrar software
 	}
-	protected void Bar_AcercaDeClinica(ActionEvent arg0) {
+	protected void MenuBar_AcercaDeClinica(ActionEvent arg0) {
 		Acerca_clinica ac = new Acerca_clinica();
 		ac.setLocationRelativeTo(this);
 		ac.setVisible(true);
 		
+	}
+	protected void MenuBar_Cama(ActionEvent arg0) {
+		CamaFRM cf = new CamaFRM();
+		cf.setLocationRelativeTo(this);
+		cf.setVisible(true);
+	}
+	protected void MenuBar_Paciente(ActionEvent arg0) {
+		PacienteFRM pf = new PacienteFRM();
+		pf.setLocationRelativeTo(this);
+		pf.setVisible(true);
+	}
+	protected void MenuBar_Medicina(ActionEvent arg0) {
 	}
 }
