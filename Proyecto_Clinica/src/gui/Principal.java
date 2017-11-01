@@ -9,20 +9,23 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Principal extends JFrame {
+public class Principal extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu mnArchivos;
 	private JMenu mnMantenimiento;
 	private JMenu mnInternamiento;
-	private JMenu mnAtencin;
+	private JMenu mnAtencion;
 	private JMenu mnPago;
 	private JMenu mnReporte;
 	private JMenuItem mntmSalir;
@@ -41,6 +44,7 @@ public class Principal extends JFrame {
 			public void run() {
 				try {
 					Principal frame = new Principal();
+				    frame.setLocationRelativeTo(null);//centrando la ventana by REUZ
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,8 +57,11 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setTitle("SISTEMA DE INTERNAMIENTO Y LIQUIDACI\u00D3N");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/user.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(0);/*
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);Quitamos la acción de cerrar(x)*/
+		this.setResizable(false);//Para mantenga del mismo tamaño()
 		setBounds(100, 100, 866, 466);
 		
 		menuBar = new JMenuBar();
@@ -66,6 +73,8 @@ public class Principal extends JFrame {
 		menuBar.add(mnArchivos);
 		
 		mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(this);
+		mntmSalir.setIcon(new ImageIcon(Principal.class.getResource("/img/exit.png")));
 		mnArchivos.add(mntmSalir);
 		
 		mnMantenimiento = new JMenu("Mantenimiento");
@@ -87,10 +96,10 @@ public class Principal extends JFrame {
 		mnInternamiento.setIcon(new ImageIcon(Principal.class.getResource("/img/configuracion.png")));
 		menuBar.add(mnInternamiento);
 		
-		mnAtencin = new JMenu("Atenci\u00F3n");
-		mnAtencin.setIcon(new ImageIcon(Principal.class.getResource("/img/discount.png")));
-		mnAtencin.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		menuBar.add(mnAtencin);
+		mnAtencion = new JMenu("Atenci\u00F3n");
+		mnAtencion.setIcon(new ImageIcon(Principal.class.getResource("/img/discount.png")));
+		mnAtencion.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		menuBar.add(mnAtencion);
 		
 		mnPago = new JMenu("Pago");
 		mnPago.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -120,5 +129,19 @@ public class Principal extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/portada.jpg")));
 		lblNewLabel.setBounds(0, 0, 850, 400);
 		contentPane.add(lblNewLabel);
+	}
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == mntmSalir) {
+			Boton_Salir(arg0);
+		}
+	}
+	public int salida() {
+		return JOptionPane.showConfirmDialog(this,
+			   "¿ Desea salir del programa ?", "                       Programa Clínica 1.0              ",  JOptionPane.OK_CANCEL_OPTION);
+	}
+	protected void Boton_Salir(ActionEvent arg0) {
+		int out = salida();
+		if (out == 0)
+		System.exit(0);//cerrar software
 	}
 }
