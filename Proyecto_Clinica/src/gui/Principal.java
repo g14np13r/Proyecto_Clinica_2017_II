@@ -83,7 +83,7 @@ public class Principal extends JFrame implements ActionListener {
 		menuBar.add(mnMantenimiento);
 		
 		mntmCama = new JMenuItem("Cama");
-		mntmCama.setIcon(new ImageIcon(Principal.class.getResource("/img/cama.jpg")));
+		mntmCama.setIcon(new ImageIcon(Principal.class.getResource("/img/cama2.JPG")));
 		mnMantenimiento.add(mntmCama);
 		
 		mntmPaciente = new JMenuItem("Paciente");
