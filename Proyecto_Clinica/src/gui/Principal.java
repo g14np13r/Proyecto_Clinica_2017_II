@@ -116,5 +116,9 @@ public class Principal extends JFrame {
 		lblSegundaActualizacion.setFont(new Font("Tahoma", Font.PLAIN, 23));
 		lblSegundaActualizacion.setBounds(97, 193, 362, 21);
 		contentPane.add(lblSegundaActualizacion);
+		
+		JLabel lblPruebaN = new JLabel("PRUEBA N\u00BA 88888888888888888888");
+		lblPruebaN.setBounds(159, 130, 199, 14);
+		contentPane.add(lblPruebaN);
 	}
 }
