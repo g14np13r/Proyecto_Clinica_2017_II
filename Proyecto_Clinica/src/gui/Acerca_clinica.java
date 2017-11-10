@@ -136,6 +136,10 @@ public class Acerca_clinica extends JDialog implements ActionListener {
 			lblIcibertecedupe_2.setBounds(0, 304, 446, 17);
 			getContentPane().add(lblIcibertecedupe_2);
 		}
+		
+		JLabel lblKajeddsd = new JLabel("kajeddsd");
+		lblKajeddsd.setBounds(45, 86, 46, 14);
+		getContentPane().add(lblKajeddsd);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
