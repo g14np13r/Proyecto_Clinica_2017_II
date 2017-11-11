@@ -28,6 +28,7 @@ public class Acerca_clinica extends JDialog implements ActionListener {
 	private JLabel lblIcibertecedupe;
 	private JLabel lblIcibertecedupe_1;
 	private JLabel lblIcibertecedupe_2;
+	private JLabel lblAsdasdasda;
 
 	/**
 	 * Launch the application.
@@ -62,7 +63,7 @@ public class Acerca_clinica extends JDialog implements ActionListener {
 			lblAutores = new JLabel("Autores");
 			lblAutores.setHorizontalAlignment(SwingConstants.CENTER);
 			lblAutores.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 18));
-			lblAutores.setBounds(0, 78, 446, 23);
+			lblAutores.setBounds(0, 81, 446, 23);
 			getContentPane().add(lblAutores);
 		}
 		{
@@ -137,9 +138,9 @@ public class Acerca_clinica extends JDialog implements ActionListener {
 			getContentPane().add(lblIcibertecedupe_2);
 		}
 		
-		JLabel lblKajeddsd = new JLabel("kajeddsd");
-		lblKajeddsd.setBounds(45, 86, 46, 14);
-		getContentPane().add(lblKajeddsd);
+		lblAsdasdasda = new JLabel("asdasdasda");
+		lblAsdasdasda.setBounds(35, 348, 127, 14);
+		getContentPane().add(lblAsdasdasda);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
