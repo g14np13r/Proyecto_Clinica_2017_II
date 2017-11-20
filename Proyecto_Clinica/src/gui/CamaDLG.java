@@ -23,30 +23,34 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class CamaDLG extends JDialog implements ActionListener {
 	
 	private ArregloCama ac = new ArregloCama("Camas.txt");
 	
 	private JButton btnAdicionar;
-	private JButton btnListar;
-	private JButton btnElimtodo;
+	private JButton btnGrabar;
+	private JButton btnEliminar;
 	private JButton btnBuscar;
-	private JButton btnElimxcod;
-	private JButton btnElimfinal;
 	private JLabel lblNumero;
 	private JLabel lblPrecio;
 	private JLabel lblEstado;
 	private JTextField txtNum;
 	private JTextField txtPre;
 	private JComboBox cboEstado;
-	private JLabel lblListadoDeCama;
 	private JTable CamaTabla;
-	private JScrollPane scrollPane;
 	
 	private DefaultTableModel modelo;
 
 	private static final long serialVersionUID = 1L;
+	private JButton btnHecho;
+	private JButton btnModificar;
+	private JButton btnSalir;
+	private JButton btnVaciar;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -67,79 +71,95 @@ public class CamaDLG extends JDialog implements ActionListener {
 	public CamaDLG() {
 		setTitle("Cama");
 		setModal(true);
-		setBounds(100, 100, 647, 419);
+		setBounds(100, 100, 679, 459);
 		getContentPane().setLayout(null);
 		
 		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/ingresar.png")));
 		btnAdicionar.addActionListener(this);
-		btnAdicionar.setBounds(10, 22, 89, 44);
+		btnAdicionar.setBounds(390, 242, 121, 44);
 		getContentPane().add(btnAdicionar);
 		
-		btnListar = new JButton("Listar");
-		btnListar.setBounds(114, 22, 89, 44);
-		getContentPane().add(btnListar);
+		btnGrabar = new JButton("Grabar");
+		btnGrabar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/grabar.png")));
+		btnGrabar.setBounds(390, 352, 121, 44);
+		getContentPane().add(btnGrabar);
 		
-		btnElimtodo = new JButton("ElimTodo");
-		btnElimtodo.setBounds(532, 22, 89, 44);
-		getContentPane().add(btnElimtodo);
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/exit.png")));
+		btnEliminar.setBounds(390, 297, 121, 44);
+		getContentPane().add(btnEliminar);
 		
 		btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(220, 22, 89, 44);
+		btnBuscar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/mantenimiento.png")));
+		btnBuscar.setBounds(390, 183, 121, 44);
 		getContentPane().add(btnBuscar);
 		
-		btnElimxcod = new JButton("ElimXcod");
-		btnElimxcod.setBounds(325, 22, 89, 44);
-		getContentPane().add(btnElimxcod);
-		
-		btnElimfinal = new JButton("ElimFinal");
-		btnElimfinal.setBounds(430, 22, 89, 44);
-		getContentPane().add(btnElimfinal);
-		
-		lblNumero = new JLabel("Numero");
-		lblNumero.setBounds(442, 124, 46, 14);
+		lblNumero = new JLabel("N\u00FAmero");
+		lblNumero.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNumero.setBounds(390, 24, 73, 14);
 		getContentPane().add(lblNumero);
 		
 		lblPrecio = new JLabel("Precio");
-		lblPrecio.setBounds(442, 164, 46, 14);
+		lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPrecio.setBounds(390, 64, 73, 14);
 		getContentPane().add(lblPrecio);
 		
 		lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(442, 199, 46, 14);
+		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblEstado.setBounds(390, 104, 73, 14);
 		getContentPane().add(lblEstado);
 		
 		txtNum = new JTextField();
-		txtNum.setBounds(498, 121, 86, 20);
+		txtNum.setBounds(495, 24, 148, 20);
 		getContentPane().add(txtNum);
 		txtNum.setColumns(10);
 		
 		txtPre = new JTextField();
-		txtPre.setBounds(498, 161, 86, 20);
+		txtPre.setBounds(495, 64, 148, 20);
 		getContentPane().add(txtPre);
 		txtPre.setColumns(10);
 		
 		cboEstado = new JComboBox();
+		cboEstado.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cboEstado.setModel(new DefaultComboBoxModel(new String[] {"Libre", "Ocupado"}));
-		cboEstado.setBounds(498, 196, 86, 20);
+		cboEstado.setBounds(531, 99, 112, 20);
 		getContentPane().add(cboEstado);
-		
-		lblListadoDeCama = new JLabel("LISTADO DE CAMA");
-		lblListadoDeCama.setBounds(172, 88, 124, 14);
-		getContentPane().add(lblListadoDeCama);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 124, 413, 245);
-		getContentPane().add(scrollPane);
-		
-		CamaTabla = new JTable();
-		CamaTabla.setFillsViewportHeight(true);
-		scrollPane.setViewportView(CamaTabla);
 		
 		//DefaulTable
 		modelo = new DefaultTableModel();
 		modelo.addColumn("Nº Cama");
 		modelo.addColumn("Precio");
 		modelo.addColumn("Estado");
+		
+		btnHecho = new JButton("Ok");
+		btnHecho.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/good.png")));
+		btnHecho.setBounds(573, 130, 70, 23);
+		getContentPane().add(btnHecho);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/modificar.png")));
+		btnModificar.setBounds(521, 242, 122, 44);
+		getContentPane().add(btnModificar);
+		
+		btnSalir = new JButton("Salir");
+		btnSalir.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/salir2.png")));
+		btnSalir.setBounds(521, 352, 122, 44);
+		getContentPane().add(btnSalir);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(23, 26, 332, 370);
+		getContentPane().add(scrollPane);
+		
+		CamaTabla = new JTable();
+		scrollPane.setViewportView(CamaTabla);
+		CamaTabla.setFillsViewportHeight(true);
 		CamaTabla.setModel(modelo);
+		
+		btnVaciar = new JButton("Vaciar");
+		btnVaciar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/eliminar.png")));
+		btnVaciar.setBounds(521, 297, 122, 44);
+		getContentPane().add(btnVaciar);
 	}
 	
 	//  Métodos tipo void sin parámetros

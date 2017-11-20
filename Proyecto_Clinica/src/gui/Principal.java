@@ -74,7 +74,7 @@ public class Principal extends JFrame implements ActionListener {
 		
 		mntmSalir = new JMenuItem("Salir");
 		mntmSalir.addActionListener(this);
-		mntmSalir.setIcon(new ImageIcon(Principal.class.getResource("/img/exit.png")));
+		mntmSalir.setIcon(new ImageIcon(Principal.class.getResource("/img/salir.png")));
 		mnArchivos.add(mntmSalir);
 		
 		mnMantenimiento = new JMenu("Mantenimiento");

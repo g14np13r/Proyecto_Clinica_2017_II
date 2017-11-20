@@ -59,7 +59,7 @@ public class ArregloCama {
 	//Metodo generarCodigo
 	public int codigoCorrelativo() {
 		if (tamaño() == 0)
-			return 10001;
+			return 1001;
 		else
 			return obtener(tamaño()-1).getNumeroCama() + 1;		
 	}
