@@ -88,10 +88,12 @@ public class Principal extends JFrame implements ActionListener {
 		mnMantenimiento.add(mntmCama);
 		
 		mntmPaciente = new JMenuItem("Paciente");
+		mntmPaciente.setIcon(new ImageIcon(Principal.class.getResource("/img/clientes.png")));
 		mntmPaciente.addActionListener(this);
 		mnMantenimiento.add(mntmPaciente);
 		
 		mntmMedicina = new JMenuItem("Medicina");
+		mntmMedicina.setIcon(new ImageIcon(Principal.class.getResource("/img/registrar.png")));
 		mntmMedicina.addActionListener(this);
 		mnMantenimiento.add(mntmMedicina);
 		
