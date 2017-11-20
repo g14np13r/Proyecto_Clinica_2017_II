@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloCama;
 import clases.Cama;
+import libreria.Alerta;
 
 import javax.swing.JTable;
 import java.awt.event.MouseListener;
@@ -28,9 +29,6 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public class CamaDLG extends JDialog implements ActionListener {
-	
-	private ArregloCama ac = new ArregloCama("Camas.txt");
-	
 	private JButton btnAdicionar;
 	private JButton btnGrabar;
 	private JButton btnEliminar;
@@ -43,9 +41,11 @@ public class CamaDLG extends JDialog implements ActionListener {
 	private JComboBox cboEstado;
 	private JTable CamaTabla;
 	
-	private DefaultTableModel modelo;
 
+	private ArregloCama ac = new ArregloCama("Camas.txt");
+	private DefaultTableModel modelo;
 	private static final long serialVersionUID = 1L;
+	
 	private JButton btnHecho;
 	private JButton btnModificar;
 	private JButton btnSalir;
@@ -81,6 +81,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 		getContentPane().add(btnAdicionar);
 		
 		btnGrabar = new JButton("Grabar");
+		btnGrabar.addActionListener(this);
 		btnGrabar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/grabar.png")));
 		btnGrabar.setBounds(390, 352, 121, 44);
 		getContentPane().add(btnGrabar);
@@ -178,17 +179,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 		}
 	}
    	
-   	
-   	//  Métodos tipo void con parámetros
-	void mensaje(String s) {
-		JOptionPane.showMessageDialog(this, s);
-	}		
-	//Metodo
-	int leerEstado() {
-		return cboEstado.getSelectedIndex();
-	}
-	
-	
+   	//Metodos de retorno
 	
 	int leerNumero() {
 		return Integer.parseInt(txtNum.getText().trim());
@@ -196,12 +187,15 @@ public class CamaDLG extends JDialog implements ActionListener {
 	double leerPrecio(){
 		return Double.parseDouble(txtPre.getText().trim());
 	}
-	//  Métodos que retornan valor con parámetros
-	int confirmar(String s) {
-		return JOptionPane.showConfirmDialog(this, s);	
+	int leerEstado() {
+		return cboEstado.getSelectedIndex();
 	}
+	/////////////
 	
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnGrabar) {
+			Boton_Grabar(arg0);
+		}
 		if (arg0.getSource() == btnAdicionar) {
 			Boton_Adicionar(arg0);
 		}
@@ -217,13 +211,16 @@ public class CamaDLG extends JDialog implements ActionListener {
 					limpieza();
 			} 
 			catch (Exception e) {
-				mensaje("Ingrese precio correcto");
+				Alerta.mensaje(this,"Ingrese precio correcto");
 			}
 		} 
 		catch (Exception e) {
-			mensaje("ingrese Numero correcto");
+			Alerta.mensaje(this,"ingrese Numero correcto");
 			txtNum.setText("");
 			txtNum.requestFocus();
 		}
+	}
+	protected void Boton_Grabar(ActionEvent arg0) {
+		
 	}
 }
