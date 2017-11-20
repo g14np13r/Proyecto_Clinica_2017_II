@@ -4,7 +4,7 @@ public class Cama {
 	//Campos o atributos
 	private int numeroCama;
 	private double precioDia;
-	private int estado;
+	private  int estado;
 	
 	//Metodo Constructor
 	public Cama(int numeroCama, double precioDia, int estado) {

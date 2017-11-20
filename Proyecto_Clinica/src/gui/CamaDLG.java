@@ -7,20 +7,26 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloCama;
+import clases.Cama;
+
 import javax.swing.JTable;
 import java.awt.event.MouseListener;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionEvent;
 
-public class CamaDLG extends JDialog implements MouseListener {
+public class CamaDLG extends JDialog implements ActionListener {
 	
-	private ArregloCama ac = new ArregloCama();
+	private ArregloCama ac = new ArregloCama("Camas.txt");
 	
 	private JButton btnAdicionar;
 	private JButton btnListar;
@@ -28,15 +34,19 @@ public class CamaDLG extends JDialog implements MouseListener {
 	private JButton btnBuscar;
 	private JButton btnElimxcod;
 	private JButton btnElimfinal;
-	private JTable CamaTabla;
-	private JScrollPane scrollPane;
 	private JLabel lblNumero;
 	private JLabel lblPrecio;
 	private JLabel lblEstado;
 	private JTextField txtNum;
 	private JTextField txtPre;
-	private JComboBox comboBox;
+	private JComboBox cboEstado;
 	private JLabel lblListadoDeCama;
+	private JTable CamaTabla;
+	private JScrollPane scrollPane;
+	
+	private DefaultTableModel modelo;
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Launch the application.
@@ -61,6 +71,7 @@ public class CamaDLG extends JDialog implements MouseListener {
 		getContentPane().setLayout(null);
 		
 		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(this);
 		btnAdicionar.setBounds(10, 22, 89, 44);
 		getContentPane().add(btnAdicionar);
 		
@@ -84,13 +95,6 @@ public class CamaDLG extends JDialog implements MouseListener {
 		btnElimfinal.setBounds(430, 22, 89, 44);
 		getContentPane().add(btnElimfinal);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(43, 121, 359, 244);
-		getContentPane().add(scrollPane);
-		
-		CamaTabla = new JTable();
-		scrollPane.setViewportView(CamaTabla);
-		
 		lblNumero = new JLabel("Numero");
 		lblNumero.setBounds(442, 124, 46, 14);
 		getContentPane().add(lblNumero);
@@ -113,29 +117,93 @@ public class CamaDLG extends JDialog implements MouseListener {
 		getContentPane().add(txtPre);
 		txtPre.setColumns(10);
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Libre", "Ocupado"}));
-		comboBox.setBounds(498, 196, 86, 20);
-		getContentPane().add(comboBox);
+		cboEstado = new JComboBox();
+		cboEstado.setModel(new DefaultComboBoxModel(new String[] {"Libre", "Ocupado"}));
+		cboEstado.setBounds(498, 196, 86, 20);
+		getContentPane().add(cboEstado);
 		
 		lblListadoDeCama = new JLabel("LISTADO DE CAMA");
 		lblListadoDeCama.setBounds(172, 88, 124, 14);
 		getContentPane().add(lblListadoDeCama);
-		CamaTabla.addMouseListener(this);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 124, 413, 245);
+		getContentPane().add(scrollPane);
+		
+		CamaTabla = new JTable();
+		CamaTabla.setFillsViewportHeight(true);
+		scrollPane.setViewportView(CamaTabla);
+		
+		//DefaulTable
+		modelo = new DefaultTableModel();
+		modelo.addColumn("Nº Cama");
+		modelo.addColumn("Precio");
+		modelo.addColumn("Estado");
+		CamaTabla.setModel(modelo);
 	}
-	public void mouseClicked(MouseEvent arg0) {
-		if (arg0.getSource() == CamaTabla) {
-			mouseClickedCamaTabla(arg0);
+	
+	//  Métodos tipo void sin parámetros
+	void limpieza() {
+		txtNum.setText("");
+		txtPre.setText("");
+		txtNum.requestFocus();
+	}	
+   	void listar() {
+		modelo.setRowCount(0);
+		for (int i=0; i<ac.tamaño(); i++) {
+			Object[] fila = { ac.obtener(i).getNumeroCama(),
+					          ac.obtener(i).getPrecioDia(),
+					          ac.obtener(i).detalleEstado() };
+			modelo.addRow(fila);
 		}
 	}
-	public void mouseEntered(MouseEvent arg0) {
+   	
+   	
+   	//  Métodos tipo void con parámetros
+	void mensaje(String s) {
+		JOptionPane.showMessageDialog(this, s);
+	}		
+	//Metodo
+	int leerEstado() {
+		return cboEstado.getSelectedIndex();
 	}
-	public void mouseExited(MouseEvent arg0) {
+	
+	
+	
+	int leerNumero() {
+		return Integer.parseInt(txtNum.getText().trim());
 	}
-	public void mousePressed(MouseEvent arg0) {
+	double leerPrecio(){
+		return Double.parseDouble(txtPre.getText().trim());
 	}
-	public void mouseReleased(MouseEvent arg0) {
+	//  Métodos que retornan valor con parámetros
+	int confirmar(String s) {
+		return JOptionPane.showConfirmDialog(this, s);	
 	}
-	protected void mouseClickedCamaTabla(MouseEvent arg0) {
+	
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnAdicionar) {
+			Boton_Adicionar(arg0);
+		}
+	}
+	protected void Boton_Adicionar(ActionEvent arg0) {
+		try {
+			int numero = leerNumero();
+			try {
+				double precio = leerPrecio();
+					int estado = leerEstado();
+					ac.adicionar(new Cama(numero, precio, estado));
+					listar();
+					limpieza();
+			} 
+			catch (Exception e) {
+				mensaje("Ingrese precio correcto");
+			}
+		} 
+		catch (Exception e) {
+			mensaje("ingrese Numero correcto");
+			txtNum.setText("");
+			txtNum.requestFocus();
+		}
 	}
 }
