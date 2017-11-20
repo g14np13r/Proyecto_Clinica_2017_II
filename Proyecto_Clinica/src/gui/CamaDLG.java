@@ -28,7 +28,7 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class CamaDLG extends JDialog implements ActionListener {
+public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	private JButton btnAdicionar;
 	private JButton btnGrabar;
 	private JButton btnEliminar;
@@ -87,6 +87,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 		getContentPane().add(btnGrabar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(this);
 		btnEliminar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/exit.png")));
 		btnEliminar.setBounds(390, 297, 121, 44);
 		getContentPane().add(btnEliminar);
@@ -154,6 +155,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 		getContentPane().add(scrollPane);
 		
 		CamaTabla = new JTable();
+		CamaTabla.addMouseListener(this);
 		scrollPane.setViewportView(CamaTabla);
 		CamaTabla.setFillsViewportHeight(true);
 		CamaTabla.setModel(modelo);
@@ -195,6 +197,9 @@ public class CamaDLG extends JDialog implements ActionListener {
 	/////////////
 	
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnEliminar) {
+			Boton_Eliminar(arg0);
+		}
 		if (arg0.getSource() == btnSalir) {
 			Boton_Salir(arg0);
 		}
@@ -245,15 +250,63 @@ public class CamaDLG extends JDialog implements ActionListener {
 		txtNum.requestFocus();
 	}
 	protected void Boton_Vaciar(ActionEvent arg0) {
-		if (ac.tamaño() > 0) {	
-			ac.eliminarTodo();
-			listar();
+		if (ac.tamaño() > 0) {
+			int co = Alerta.confirmar(this, "Está seguro de vaciar la lista\""+ac.getArchivo()+"\" ?");
+			if(co == 0){
+				ac.eliminarTodo();
+				listar();
+			}
+			else{
+				Alerta.mensaje(this, "No se perdieron datos");
+			}
 		}
 		else
-			Alerta.mensaje(this,"el ArrayList de alumnos está vacío");
-		limpieza();
+			Alerta.mensaje(this,"La lista de camas está vacía");
+			limpieza();
 	}
 	protected void Boton_Salir(ActionEvent arg0) {
 		dispose();
+	}
+	protected void Boton_Eliminar(ActionEvent arg0) {
+		if (ac.tamaño() > 0) {
+			int co = Alerta.confirmar(this, "¿Desea eliminar el registro?");
+			if (co == 0) {
+				ac.eliminarPorCod(ac.buscar(leerNumero()));
+				listar();
+				limpieza();
+			} else {
+				Alerta.mensaje(this, "No se eliminó");
+			}
+		} else {
+
+		}
+	}
+	void actuFil(){
+		if (ac.tamaño() == 0){
+			limpieza();
+		}
+		else{
+			Cama c=ac.obtener(CamaTabla.getSelectedRow());
+			txtNum.setText(""+c.getNumeroCama());
+			txtPre.setText(""+c.getPrecioDia());
+			cboEstado.setSelectedItem(c.getEstado());
+		}
+		
+	}
+	public void mouseClicked(MouseEvent arg0) {
+		if (arg0.getSource() == CamaTabla) {
+			mouseClickedCamaTabla(arg0);
+		}
+	}
+	public void mouseEntered(MouseEvent arg0) {
+	}
+	public void mouseExited(MouseEvent arg0) {
+	}
+	public void mousePressed(MouseEvent arg0) {
+	}
+	public void mouseReleased(MouseEvent arg0) {
+	}
+	protected void mouseClickedCamaTabla(MouseEvent arg0) {
+		actuFil();
 	}
 }
