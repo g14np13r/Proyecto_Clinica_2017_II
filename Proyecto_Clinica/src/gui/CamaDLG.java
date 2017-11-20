@@ -144,6 +144,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 		getContentPane().add(btnModificar);
 		
 		btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(this);
 		btnSalir.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/salir2.png")));
 		btnSalir.setBounds(521, 352, 122, 44);
 		getContentPane().add(btnSalir);
@@ -158,9 +159,12 @@ public class CamaDLG extends JDialog implements ActionListener {
 		CamaTabla.setModel(modelo);
 		
 		btnVaciar = new JButton("Vaciar");
+		btnVaciar.addActionListener(this);
 		btnVaciar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/eliminar.png")));
 		btnVaciar.setBounds(521, 297, 122, 44);
 		getContentPane().add(btnVaciar);
+		
+		listar();//para que aparezca los datos registrados
 	}
 	
 	//  Métodos tipo void sin parámetros
@@ -178,9 +182,7 @@ public class CamaDLG extends JDialog implements ActionListener {
 			modelo.addRow(fila);
 		}
 	}
-   	
-   	//Metodos de retorno
-	
+   	//Métodos con retorno
 	int leerNumero() {
 		return Integer.parseInt(txtNum.getText().trim());
 	}
@@ -193,6 +195,12 @@ public class CamaDLG extends JDialog implements ActionListener {
 	/////////////
 	
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnSalir) {
+			Boton_Salir(arg0);
+		}
+		if (arg0.getSource() == btnVaciar) {
+			Boton_Vaciar(arg0);
+		}
 		if (arg0.getSource() == btnGrabar) {
 			Boton_Grabar(arg0);
 		}
@@ -221,6 +229,31 @@ public class CamaDLG extends JDialog implements ActionListener {
 		}
 	}
 	protected void Boton_Grabar(ActionEvent arg0) {
-		
+		if (ac.existeArchivo()) {
+			int ok = Alerta.confirmar(this,"¿ Desea actualizar \"" + ac.getArchivo() + "\" ?");
+			if (ok == 0) {
+				ac.grabarCamas();
+				Alerta.mensaje(this,"\"" + ac.getArchivo() + "\" ha sido actualizado");
+			}
+			else
+				Alerta.mensaje(this,"No se actualizó  \"" + ac.getArchivo() + "\"");
+		}
+		else {
+			ac.grabarCamas();
+			Alerta.mensaje(this,"\"" + ac.getArchivo() + "\" ha sido creado");
+		}
+		txtNum.requestFocus();
+	}
+	protected void Boton_Vaciar(ActionEvent arg0) {
+		if (ac.tamaño() > 0) {	
+			ac.eliminarTodo();
+			listar();
+		}
+		else
+			Alerta.mensaje(this,"el ArrayList de alumnos está vacío");
+		limpieza();
+	}
+	protected void Boton_Salir(ActionEvent arg0) {
+		dispose();
 	}
 }
