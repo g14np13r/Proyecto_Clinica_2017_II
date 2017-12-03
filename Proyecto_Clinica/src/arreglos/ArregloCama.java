@@ -25,7 +25,7 @@ public class ArregloCama {
 	public void setArchivo(String archivo) {
 		this.archivo = archivo;
 	}
-
+	
 	// Método tamaño
 	public int tamaño(){
 		return ca.size();
@@ -34,28 +34,25 @@ public class ArregloCama {
 	public Cama obtener(int posi){
 		return ca.get(posi);
 	}
-	// Método adicionar
-	public void adicionar(Cama obje){
-		ca.add(obje);
-	}
-	// Método eliminarAlFinal
-	public void eliminarFinal(){
-		ca.remove(tamaño()-1);	
-	}
-	// Método eliminarTodo
-	public void eliminarTodo(){
-		ca.clear();
-	}
 	// Método Buscar
 	public Cama buscar(int codigo){
 		for (int i = 0; i < tamaño(); i++) {
 			if(obtener(i).getNumeroCama()==codigo)return obtener(i);
 		}return null;
 	}
+	// Método adicionar
+	public void adicionar(Cama obje){
+		ca.add(obje);
+	}
 	// Método EliminarPorCod
 	public void eliminarPorCod(Cama obje){
 		ca.remove(obje);
 	}
+	// Método eliminarTodo
+	public void eliminarTodo(){
+		ca.clear();
+	}
+	
 	//Metodo generarCodigo
 	public int codigoCorrelativo() {
 		if (tamaño() == 0)
@@ -63,7 +60,7 @@ public class ArregloCama {
 		else
 			return obtener(tamaño()-1).getNumeroCama() + 1;		
 	}
-	
+	//
 	public void grabarCamas(){
 		try {
 			PrintWriter pw;
@@ -108,7 +105,5 @@ public class ArregloCama {
 		File f = new File(archivo);
 		return f.exists();
 	}
-	
-	
 	
 }

@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloCama;
@@ -23,12 +24,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public class CamaDLG extends JDialog implements ActionListener, MouseListener {
+	
+	private ArregloCama ac = new ArregloCama("Camas.txt");
+	private DefaultTableModel modelo;
+	private static final long serialVersionUID = 1L;
+	private DefaultTableCellRenderer dtcr;
+	
 	private JButton btnIngresar;
 	private JButton btnGrabar;
 	private JButton btnEliminar;
@@ -39,12 +48,6 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	private JTextField txtPre;
 	private JComboBox cboEstado;
 	private JTable CamaTabla;
-	
-
-	private ArregloCama ac = new ArregloCama("Camas.txt");
-	private DefaultTableModel modelo;
-	private static final long serialVersionUID = 1L;
-	
 	private JButton btnHecho;
 	private JButton btnModificar;
 	private JButton btnSalir;
@@ -68,7 +71,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	 * Create the dialog.
 	 */
 	public CamaDLG() {
-		setTitle("Cama");
+		setTitle("Mantenimiento | Cama");
 		setModal(true);
 		setBounds(100, 100, 679, 459);
 		getContentPane().setLayout(null);
@@ -125,11 +128,6 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		cboEstado.setBounds(531, 99, 112, 20);
 		getContentPane().add(cboEstado);
 		
-		//DefaulTable
-		modelo = new DefaultTableModel();
-		modelo.addColumn("Nº Cama");
-		modelo.addColumn("Precio");
-		modelo.addColumn("Estado");
 		
 		btnHecho = new JButton("Ok");
 		btnHecho.setEnabled(false);
@@ -153,6 +151,12 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 26, 332, 370);
 		getContentPane().add(scrollPane);
+	
+		//DefaulTable
+		modelo = new DefaultTableModel();
+		modelo.addColumn("Nº Cama");
+		modelo.addColumn("Precio");
+		modelo.addColumn("Estado");
 		
 		CamaTabla = new JTable();
 		CamaTabla.addMouseListener(this);
@@ -165,6 +169,13 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		btnVaciar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/eliminar.png")));
 		btnVaciar.setBounds(521, 297, 122, 44);
 		getContentPane().add(btnVaciar);
+
+		//Establecer alineamineto
+		dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		CamaTabla.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+		CamaTabla.getColumnModel().getColumn(1).setCellRenderer(dtcr);
+		CamaTabla.getColumnModel().getColumn(2).setCellRenderer(dtcr);
 		
 		listar();//para que aparezca los datos registrados
 
@@ -172,6 +183,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		dispoDatos(false);
 		//para mostrar los datos al inicio, de lo contrario se tiene que hacer clicka un fila
 		editFil();
+		
 	}
 	
 	//  Métodos tipo void sin parámetros
@@ -194,14 +206,16 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		modelo.setRowCount(0);
 		for (int i=0; i<ac.tamaño(); i++) {
 			Object[] fila = { ac.obtener(i).getNumeroCama(),
-					          ac.obtener(i).getPrecioDia(),
+/*String.format("%,6.2f",)*/  ac.obtener(i).getPrecioDia(),
 					          ac.obtener(i).detalleEstado() };
 			modelo.addRow(fila);
 		}
 		//Autoseleccionado en la tabla
 		if (ac.tamaño() > 0)
-			CamaTabla.getSelectionModel().setSelectionInterval(posFila, posFila);		
+			CamaTabla.getSelectionModel().setSelectionInterval(posFila, posFila);	
+		
 	}
+   	
    	//Métodos con retorno
 	int leerNumero() {
 		return Integer.parseInt(txtNum.getText().trim());
@@ -214,15 +228,16 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	}
 	/////////////
 	//Para habilitar o deshabilitar los datos
-	void dispoDatos(boolean ok){
-		txtPre.setEditable(ok);
-		cboEstado.setEnabled(ok);
-		btnHecho.setEnabled(ok);//Es un boton, pero deben actuar a la vez pqrq que tenga esa función y/o efecto :v
+	void dispoDatos(boolean sino){
+		txtPre.setEditable(sino);
+		cboEstado.setEnabled(sino);
+		btnHecho.setEnabled(sino);//Es un boton, pero deben actuar a la vez para que tenga esa función y/o efecto :v
 	}
 	//Para habilitar o deshabilitar los botones
-	void dispoBoton(boolean ok){
-		btnIngresar.setEnabled(ok);
-		btnModificar.setEnabled(ok);
+	void dispoBoton(boolean sino){
+		btnIngresar.setEnabled(sino);
+		btnModificar.setEnabled(sino);
+		btnEliminar.setEnabled(sino);
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
@@ -293,7 +308,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			}
 		} 
 		catch (Exception e) {
-			Alerta.mensaje(this,"ingrese Numero correcto");
+			Alerta.mensaje(this,"Ingrese número correcto");
 			
 		}
 	}
@@ -319,6 +334,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		btnModificar.setEnabled(true);
 		btnHecho.setEnabled(false);
 		if (ac.tamaño() > 0) {
+			btnEliminar.setEnabled(true);
 			int co = Alerta.confirmar(this, "¿Desea eliminar el registro?");
 			if (co == 0) {
 				ac.eliminarPorCod(ac.buscar(leerNumero()));

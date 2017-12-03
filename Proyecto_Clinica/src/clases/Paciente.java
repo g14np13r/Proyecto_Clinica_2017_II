@@ -3,19 +3,17 @@ package clases;
 public class Paciente {
 	//Campos o atributos
 	private int codigoPaciente;
-	private String apepat,apemat, nombres, telefono, dni;
+	private String apellidos, nombres, telefono, dni;
 	
 	//Metodo Constructor
-	public Paciente(int codigoPaciente, String apepat,String apemat, String nombres, String telefono, String dni) {
+	public Paciente(int codigoPaciente, String apellidos, String nombres, String telefono, String dni) {
 		this.codigoPaciente = codigoPaciente;
-		this.apepat =apepat;
-		this.apemat=apemat;
+		this.apellidos =apellidos;
 		this.nombres = nombres;
 		this.telefono = telefono;
 		this.dni = dni;
 	}
 	//Metodos Setters & Getters. Propiedades de lectura(get return) y escritura(set void)
-	
 	public int getCodigoPaciente() {
 		return codigoPaciente;
 	}
@@ -24,20 +22,12 @@ public class Paciente {
 		this.codigoPaciente = codigoPaciente;
 	}
 
-	public String getApepat() {
-		return apepat;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setApepat(String apepat) {
-		this.apepat = apepat;
-	}
-
-	public String getApemat() {
-		return apemat;
-	}
-
-	public void setApemat(String apemat) {
-		this.apemat = apemat;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getNombres() {
@@ -63,6 +53,5 @@ public class Paciente {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-
 	
 }

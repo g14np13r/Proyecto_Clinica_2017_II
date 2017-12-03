@@ -9,25 +9,29 @@ import java.util.ArrayList;
 import clases.Paciente;
 
 public class ArregloPaciente {
-	private ArrayList<Paciente> paciente;
+	private ArrayList<Paciente> pa;
 	private String archivo;
 	public ArregloPaciente(String archivo){
-		paciente=new ArrayList<Paciente>();
+		pa = new ArrayList<Paciente>();
 		this.archivo=archivo;
 		cargarPacientes();
 	}
+	//
+	public String getArchivo() {
+		return archivo;
+	}
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
+	}
+	//
 	public int tamaño(){
-		return paciente.size();
+		return pa.size();
 	}
+	
 	public Paciente obtener(int i){
-		return paciente.get(i);
+		return pa.get(i);
 	}
-	public void adicionar(Paciente x){
-		paciente.add(x);
-	}
-	public void eliminar(Paciente x) {
-		paciente.remove(x);
-	} 
+	
 	public Paciente buscar(int cod){
 		Paciente x;
 		for(int i=0;i<tamaño();i++){
@@ -37,18 +41,21 @@ public class ArregloPaciente {
 				}
 		return null;
 	}
+	public void adicionar(Paciente x){
+		pa.add(x);
+	}
+	public void eliminar(Paciente x) {
+		pa.remove(x);
+	} 
+	
 	public int codigoCorrelativo(){
 		if(tamaño()==0)
 			return 1001;
 		else
 			return obtener(tamaño()-1).getCodigoPaciente()+1;
 	}
-	public String getArchivo() {
-		return archivo;
-	}
-	public void setArchivo(String archivo) {
-		this.archivo = archivo;
-	}
+	
+	
 	public void grabarClientes(){
 		try{
 			PrintWriter pw;
@@ -59,8 +66,7 @@ public class ArregloPaciente {
 				x=obtener(i);
 				linea=  x.getCodigoPaciente()+";"+
 						x.getNombres()+";"+
-						x.getApepat() +";"+
-						x.getApemat()+";"+
+						x.getApellidos() +";"+
 						x.getDni()+";"+
 						x.getTelefono()+";";
 				pw.println(linea);
@@ -73,7 +79,7 @@ public class ArregloPaciente {
 	public void cargarPacientes(){
 		try{
 			BufferedReader br;
-			String linea,nombre,apePat,apeMat,telefono,dni;
+			String linea,nombre,ape,tel,dni;
 			String s[];
 			int cod;
 			br=new BufferedReader(new FileReader(archivo));
@@ -81,11 +87,10 @@ public class ArregloPaciente {
 				s=linea.split(";");
 				cod=Integer.parseInt(s[0].trim());
 				nombre=s[1].trim();
-				apePat=s[2].trim();
-				apeMat=s[3].trim();
-				telefono=s[4].trim();
-				dni=s[5].trim();
-				adicionar(new Paciente(cod, nombre, apePat, apeMat, telefono, dni));
+				ape=s[2].trim();
+				tel=s[3].trim();
+				dni=s[4].trim();
+				adicionar(new Paciente(cod, nombre, ape, tel, dni));
 			}
 			br.close();
 		}
