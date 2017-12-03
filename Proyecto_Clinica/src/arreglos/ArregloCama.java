@@ -45,7 +45,7 @@ public class ArregloCama {
 		ca.add(obje);
 	}
 	// Método EliminarPorCod
-	public void eliminarPorCod(Cama obje){
+	public void eliminar(Cama obje){
 		ca.remove(obje);
 	}
 	// Método eliminarTodo

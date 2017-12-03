@@ -148,28 +148,28 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		btnSalir.setBounds(521, 352, 122, 44);
 		getContentPane().add(btnSalir);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 26, 332, 370);
-		getContentPane().add(scrollPane);
-	
-		//DefaulTable
-		modelo = new DefaultTableModel();
-		modelo.addColumn("Nº Cama");
-		modelo.addColumn("Precio");
-		modelo.addColumn("Estado");
-		
-		CamaTabla = new JTable();
-		CamaTabla.addMouseListener(this);
-		scrollPane.setViewportView(CamaTabla);
-		CamaTabla.setFillsViewportHeight(true);
-		CamaTabla.setModel(modelo);
-		
 		btnVaciar = new JButton("Vaciar");
 		btnVaciar.addActionListener(this);
 		btnVaciar.setIcon(new ImageIcon(CamaDLG.class.getResource("/img/eliminar.png")));
 		btnVaciar.setBounds(521, 297, 122, 44);
 		getContentPane().add(btnVaciar);
-
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(23, 26, 332, 370);
+		getContentPane().add(scrollPane);
+		
+		CamaTabla = new JTable();
+		CamaTabla.addMouseListener(this);
+		scrollPane.setViewportView(CamaTabla);
+		CamaTabla.setFillsViewportHeight(true);
+		
+		//DefaulTable
+		modelo = new DefaultTableModel();
+		modelo.addColumn("Nº Cama");
+		modelo.addColumn("Precio");
+		modelo.addColumn("Estado");
+		CamaTabla.setModel(modelo);
+		
 		//Establecer alineamineto
 		dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -177,11 +177,10 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		CamaTabla.getColumnModel().getColumn(1).setCellRenderer(dtcr);
 		CamaTabla.getColumnModel().getColumn(2).setCellRenderer(dtcr);
 		
+		//Inicializando
 		listar();//para que aparezca los datos registrados
-
-		txtNum.setEditable(false);
 		dispoDatos(false);
-		//para mostrar los datos al inicio, de lo contrario se tiene que hacer clicka un fila
+		//para mostrar los datos al inicio, de lo contrario se tiene que hacer click a un fila
 		editFil();
 		
 	}
@@ -190,7 +189,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	void limpieza() {
 		txtNum.setText("");
 		txtPre.setText("");
-		txtNum.requestFocus();
+		txtPre.requestFocus();
 	}	
    	void listar() {
    		//Para que tome la posicion al anterior--
@@ -215,7 +214,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			CamaTabla.getSelectionModel().setSelectionInterval(posFila, posFila);	
 		
 	}
-   	
+   	//////////////////////////////////
    	//Métodos con retorno
 	int leerNumero() {
 		return Integer.parseInt(txtNum.getText().trim());
@@ -237,8 +236,8 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	void dispoBoton(boolean sino){
 		btnIngresar.setEnabled(sino);
 		btnModificar.setEnabled(sino);
-		btnEliminar.setEnabled(sino);
 	}
+	//////////////////////////////////
 	
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnModificar) {
@@ -272,16 +271,21 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 		limpieza();
 		txtNum.setText("" + ac.codigoCorrelativo());
 		dispoDatos(true);
-		txtPre.requestFocus();
 		/**/
 	}
 	
 	protected void Boton_Hecho(ActionEvent arg0) {
 		try {
 			int numero = leerNumero();
-			try {
-				double precio = leerPrecio();
-				int estado = leerEstado();
+			double precio = leerPrecio();
+			int estado = leerEstado();
+			
+			if (leerPrecio()<=0) {
+				Alerta.mensaje(this, "Precio no válido");
+				txtPre.setText("");
+				txtPre.requestFocus();
+			}
+			else{
 				/*Luego de accionar boton ingresar,
 				se añade datos y se habilita*/
 				if(btnIngresar.isEnabled() == false){
@@ -300,16 +304,13 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 				}
 				listar();
 				dispoDatos(false);
-			} 
-			catch (Exception e) {
-				Alerta.mensaje(this,"Ingrese precio correcto");
-				txtPre.setText("");
-				txtPre.requestFocus();
 			}
+			
 		} 
 		catch (Exception e) {
-			Alerta.mensaje(this,"Ingrese número correcto");
-			
+			Alerta.mensaje(this,"Ingrese precio correcto");
+			txtPre.setText("");
+			txtPre.requestFocus();
 		}
 	}
 	
@@ -326,7 +327,6 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			dispoDatos(false);
 			Alerta.mensaje(this, "No hay camas");
 		}
-		
 	}
 	
 	protected void Boton_Eliminar(ActionEvent arg0) {
@@ -337,9 +337,10 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			btnEliminar.setEnabled(true);
 			int co = Alerta.confirmar(this, "¿Desea eliminar el registro?");
 			if (co == 0) {
-				ac.eliminarPorCod(ac.buscar(leerNumero()));
+				ac.eliminar(ac.buscar(leerNumero()));
 				listar();
-				limpieza();
+				editFil();//para mostrar la siguiente fila por defecto
+				Alerta.mensaje(this, "Registro eliminado");
 			} else {
 				Alerta.mensaje(this, "No se eliminó");
 			}
@@ -362,9 +363,10 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 				Alerta.mensaje(this, "No se perdieron datos");
 			}
 		}
-		else
+		else{
 			Alerta.mensaje(this,"La lista de camas está vacía");
 			limpieza();
+		}
 	}
 	
 	protected void Boton_Grabar(ActionEvent arg0) {

@@ -11,6 +11,7 @@ import clases.Paciente;
 public class ArregloPaciente {
 	private ArrayList<Paciente> pa;
 	private String archivo;
+	
 	public ArregloPaciente(String archivo){
 		pa = new ArrayList<Paciente>();
 		this.archivo=archivo;
@@ -46,7 +47,10 @@ public class ArregloPaciente {
 	}
 	public void eliminar(Paciente x) {
 		pa.remove(x);
-	} 
+	}
+	public void eliminarTodo(){
+		pa.clear();
+	}
 	
 	public int codigoCorrelativo(){
 		if(tamaño()==0)
@@ -56,7 +60,7 @@ public class ArregloPaciente {
 	}
 	
 	
-	public void grabarClientes(){
+	public void grabarPacientes(){
 		try{
 			PrintWriter pw;
 			String linea;
@@ -79,18 +83,18 @@ public class ArregloPaciente {
 	public void cargarPacientes(){
 		try{
 			BufferedReader br;
-			String linea,nombre,ape,tel,dni;
-			String s[];
 			int cod;
+			String linea,nom,ape,tel,dni;
+			String s[];
 			br=new BufferedReader(new FileReader(archivo));
 			while ((linea=br.readLine())!=null){
 				s=linea.split(";");
 				cod=Integer.parseInt(s[0].trim());
-				nombre=s[1].trim();
+				nom=s[1].trim();
 				ape=s[2].trim();
 				tel=s[3].trim();
 				dni=s[4].trim();
-				adicionar(new Paciente(cod, nombre, ape, tel, dni));
+				adicionar(new Paciente(cod, nom, ape, tel, dni));
 			}
 			br.close();
 		}
