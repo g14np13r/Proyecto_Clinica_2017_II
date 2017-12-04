@@ -60,7 +60,7 @@ public class PacienteDLG extends JDialog implements ActionListener, MouseListene
 	public static void main(String[] args) {
 		try {
 			PacienteDLG dialog = new PacienteDLG();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(0);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -216,7 +216,6 @@ public class PacienteDLG extends JDialog implements ActionListener, MouseListene
 	
 	//  Métodos tipo void sin parámetros
 	void limpieza() {
-		txtCod.setText("");
 		txtNom.setText("");
 		txtApe.setText("");
 		txtTel.setText("");
@@ -441,8 +440,8 @@ public class PacienteDLG extends JDialog implements ActionListener, MouseListene
 			ap.grabarPacientes();
 			Alerta.mensaje(this,"\"" + ap.getArchivo() + "\" ha sido creado");
 		}
-		txtCod.requestFocus();
 	}
+	
 	protected void Boton_Salir(ActionEvent arg0) {
 		dispose();
 	}

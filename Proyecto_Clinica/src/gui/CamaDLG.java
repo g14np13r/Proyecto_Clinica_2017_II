@@ -187,7 +187,6 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 	
 	//  Métodos tipo void sin parámetros
 	void limpieza() {
-		txtNum.setText("");
 		txtPre.setText("");
 		txtPre.requestFocus();
 	}	
@@ -386,7 +385,6 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			ac.grabarCamas();
 			Alerta.mensaje(this,"\"" + ac.getArchivo() + "\" ha sido creado");
 		}
-		txtNum.requestFocus();
 	}
 	
 	protected void Boton_Salir(ActionEvent arg0) {

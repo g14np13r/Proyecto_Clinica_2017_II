@@ -49,6 +49,9 @@ public class ArregloMedicina {
 	public void eliminar(Medicina x) {
 		me.remove(x);
 	} 
+	public void eliminarTodo(){
+		me.clear();
+	}
 	
 	public int codigoCorrelativo(){
 		if(tamaño()==0)

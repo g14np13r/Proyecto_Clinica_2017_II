@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloMedicina;
+import clases.Medicina;
+import libreria.Alerta;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,8 +22,12 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
-public class MedicinaDLG extends JDialog {
+public class MedicinaDLG extends JDialog implements ActionListener, MouseListener {
 	
 	private ArregloMedicina am = new ArregloMedicina("Medicinas.txt");
 	private DefaultTableModel modelo;
@@ -71,31 +77,37 @@ public class MedicinaDLG extends JDialog {
 		getContentPane().setLayout(null);
 		
 		btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(this);
 		btnIngresar.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/ingresar.png")));
 		btnIngresar.setBounds(611, 366, 122, 44);
 		getContentPane().add(btnIngresar);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(this);
 		btnModificar.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/modificar.png")));
 		btnModificar.setBounds(743, 366, 122, 44);
 		getContentPane().add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(this);
 		btnEliminar.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/exit.png")));
 		btnEliminar.setBounds(611, 420, 122, 44);
 		getContentPane().add(btnEliminar);
 		
 		btnGrabar = new JButton("Grabar");
+		btnGrabar.addActionListener(this);
 		btnGrabar.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/grabar.png")));
 		btnGrabar.setBounds(611, 475, 122, 44);
 		getContentPane().add(btnGrabar);
 		
 		btnVaciar = new JButton("Vaciar");
+		btnVaciar.addActionListener(this);
 		btnVaciar.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/eliminar.png")));
 		btnVaciar.setBounds(743, 420, 122, 44);
 		getContentPane().add(btnVaciar);
 		
 		btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(this);
 		btnSalir.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/salir2.png")));
 		btnSalir.setBounds(743, 475, 122, 44);
 		getContentPane().add(btnSalir);
@@ -156,6 +168,7 @@ public class MedicinaDLG extends JDialog {
 		txtStock.setColumns(10);
 		
 		btnOk = new JButton("Ok");
+		btnOk.addActionListener(this);
 		btnOk.setIcon(new ImageIcon(MedicinaDLG.class.getResource("/img/good.png")));
 		btnOk.setEnabled(false);
 		btnOk.setBounds(795, 210, 70, 23);
@@ -166,6 +179,7 @@ public class MedicinaDLG extends JDialog {
 		getContentPane().add(scrollPane);
 		
 		MedicinaTabla = new JTable();
+		MedicinaTabla.addMouseListener(this);
 		MedicinaTabla.setFillsViewportHeight(true);
 		scrollPane.setViewportView(MedicinaTabla);
 		
@@ -186,6 +200,277 @@ public class MedicinaDLG extends JDialog {
 		MedicinaTabla.getColumnModel().getColumn(2).setCellRenderer(dtcr);
 		MedicinaTabla.getColumnModel().getColumn(3).setCellRenderer(dtcr);
 		MedicinaTabla.getColumnModel().getColumn(4).setCellRenderer(dtcr);
+		
+		//Inicializando
+		listar();//para que aparezca los datos registrados
+		dispoDatos(false);
+		//para mostrar los datos al inicio, de lo contrario se tiene que hacer click a un fila
+		editFil();
 	}
 
+
+	//  Métodos tipo void sin parámetros
+	void limpieza() {
+		txtNom.setText("");
+		txtLab.setText("");
+		txtPre.setText("");
+		txtStock.setText("");
+		txtNom.requestFocus();
+	}	
+   	void listar() {
+   		//Para que tome la posicion al anterior--
+   		Medicina x;
+		int posFila = 0;
+		if (modelo.getRowCount() > 0)
+			posFila = MedicinaTabla.getSelectedRow();
+		if (modelo.getRowCount() == am.tamaño()-1)
+			posFila = am.tamaño()-1;
+		if (posFila == am.tamaño())
+			posFila --;
+		//obtener los datos de cama mediante la posicion
+		modelo.setRowCount(0);
+		for (int i=0; i<am.tamaño(); i++) {
+			Object[] fila = { am.obtener(i).getCodigoMedicina(),
+							  am.obtener(i).getNombre(),
+					          am.obtener(i).getLaboratorio(),
+					          am.obtener(i).getPrecio(),
+					          am.obtener(i).getStock()};
+			modelo.addRow(fila);
+		}
+		//Autoseleccionado en la tabla
+		if (am.tamaño() > 0)
+			MedicinaTabla.getSelectionModel().setSelectionInterval(posFila, posFila);	
+		
+	}
+   	//////////////////////////////////
+   	//Métodos con retorno
+   	int leerCodigo(){
+   		return Integer.parseInt(txtCod.getText().trim());
+   	}
+   	String leerNombre(){
+   		return txtNom.getText().trim();
+   	}
+   	String leerLaboratorio(){
+   		return txtLab.getText().trim();
+   	}
+   	double leerPrecio(){
+   		return Double.parseDouble(txtPre.getText().trim());
+   	}
+   	int leerStock(){
+   		return Integer.parseInt(txtStock.getText().trim());
+   	}
+   	
+	/////////////
+	//Para habilitar o deshabilitar los datos
+	void dispoDatos(boolean sino){
+		txtNom.setEditable(sino);
+		txtLab.setEditable(sino);
+		txtPre.setEditable(sino);
+		txtStock.setEditable(sino);
+		btnOk.setEnabled(sino);//Es un boton, pero deben actuar a la vez para que tenga esa función y/o efecto :v
+	}
+	//Para habilitar o deshabilitar los botones
+	void dispoBoton(boolean sino){
+		btnIngresar.setEnabled(sino);
+		btnModificar.setEnabled(sino);
+	}
+	//////////////////////////////////
+	
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnSalir) {
+			Boton_Salir(arg0);
+		}
+		if (arg0.getSource() == btnGrabar) {
+			Boton_Grabar(arg0);
+		}
+		if (arg0.getSource() == btnVaciar) {
+			Boton_Vaciar(arg0);
+		}
+		if (arg0.getSource() == btnEliminar) {
+			Boton_Eliminar(arg0);
+		}
+		if (arg0.getSource() == btnModificar) {
+			Boton_Modificar(arg0);
+		}
+		if (arg0.getSource() == btnOk) {
+			Boton_Ok(arg0);
+		}
+		if (arg0.getSource() == btnIngresar) {
+			Boton_Ingresar(arg0);
+		}
+	}
+	protected void Boton_Ingresar(ActionEvent arg0) {
+		btnIngresar.setEnabled(false);
+		btnModificar.setEnabled(true);
+		btnOk.setEnabled(true);
+		limpieza();
+		txtCod.setText("" + am.codigoCorrelativo());
+		dispoDatos(true);
+	}
+	protected void Boton_Ok(ActionEvent arg0) {
+			
+	int codigo = leerCodigo();
+		String nombre = leerNombre();
+		String lab = leerLaboratorio();
+		if (leerNombre().length()==0) {
+			Alerta.mensaje(this, "Ingrese nombre");
+			txtNom.setText("");
+			txtNom.requestFocus();
+		}
+		else if (leerLaboratorio().length()==0) {
+			Alerta.mensaje(this, "Ingrese laboratorio");
+			txtLab.setText("");
+			txtLab.requestFocus();
+		}
+	
+		else {
+					
+			try {
+				double precio = leerPrecio();
+				try {
+					int stock = leerStock();
+					/*Luego de accionar boton ingresar,
+					se añade datos y se habilita*/
+					if (btnIngresar.isEnabled() == false) {
+						Medicina nm = new Medicina(codigo, nombre, lab, precio, stock);
+						am.adicionar(nm);
+						btnIngresar.setEnabled(true);
+						listar();
+						dispoDatos(false);
+					}
+					/*Luego de accionar el boton modificar,
+					se cambia los datos y se habilita*/
+					if (btnModificar.isEnabled() == false) {
+						Medicina m = am.buscar(codigo);
+						m.setCodigoMedicina(codigo);
+						m.setNombre(nombre);
+						m.setLaboratorio(lab);
+						m.setPrecio(precio);
+						m.setStock(stock);
+						btnModificar.setEnabled(true);
+						listar();
+						dispoDatos(false);
+					}
+				} catch (Exception e) {
+					Alerta.mensaje(this, "Ingrese Stock correcto");
+					txtStock.setText("");
+					txtStock.requestFocus();
+				}
+			} 
+			catch (Exception e) {
+				Alerta.mensaje(this, "Ingrese precio correcto");
+				txtPre.setText("");
+				txtPre.requestFocus();
+			}
+		}
+	}
+	protected void Boton_Modificar(ActionEvent arg0) {
+		btnIngresar.setEnabled(true);
+		btnModificar.setEnabled(false);
+		if(am.tamaño()>0){
+			btnOk.setEnabled(true);
+			dispoDatos(true);
+			editFil();
+		}
+		else{
+			btnOk.setEnabled(false);
+			dispoDatos(false);
+			Alerta.mensaje(this, "No hay pacientes");
+		}
+	}
+	protected void Boton_Eliminar(ActionEvent arg0) {
+		btnIngresar.setEnabled(true);
+		btnModificar.setEnabled(true);
+		btnOk.setEnabled(false);
+		if (am.tamaño() > 0) {
+			btnEliminar.setEnabled(true);
+			int co = Alerta.confirmar(this, "¿Desea eliminar el registro?");
+			if (co == 0) {
+				am.eliminar(am.buscar(leerCodigo()));
+				listar();
+				editFil();//para mostrar la siguiente fila por defecto
+				Alerta.mensaje(this, "Registro eliminado");
+			} else {
+				Alerta.mensaje(this, "No se eliminó");
+			}
+		} else {
+			Alerta.mensaje(this, "No existen medicinas");
+		}
+	}
+	protected void Boton_Vaciar(ActionEvent arg0) {
+		btnIngresar.setEnabled(true);
+		btnModificar.setEnabled(true);
+		btnOk.setEnabled(false);
+		if (am.tamaño() > 0) {
+			int co = Alerta.confirmar(this, "Está seguro de vaciar la lista \"" +am.getArchivo()+ "\" ?");
+			if(co == 0){
+				am.eliminarTodo();
+				listar();
+			}
+			else{
+				Alerta.mensaje(this, "No se perdieron datos");
+			}
+		}
+		else{
+			Alerta.mensaje(this,"La lista de medicinas está vacía");
+			limpieza();
+		}
+	}
+	protected void Boton_Grabar(ActionEvent arg0) {
+		btnIngresar.setEnabled(true);
+		btnModificar.setEnabled(true);
+		btnOk.setEnabled(false);
+		if (am.existeArchivo()) {
+			int ok = Alerta.confirmar(this,"¿ Desea actualizar \"" + am.getArchivo() + "\" ?");
+			if (ok == 0) {
+				am.grabarMedicinas();
+				Alerta.mensaje(this,"\"" + am.getArchivo() + "\" ha sido actualizado");
+			}
+			else
+				Alerta.mensaje(this,"No se actualizó  \"" + am.getArchivo() + "\"");
+		}
+		else {
+			am.grabarMedicinas();
+			Alerta.mensaje(this,"\"" + am.getArchivo() + "\" ha sido creado");
+		}
+	}
+	protected void Boton_Salir(ActionEvent arg0) {
+		dispose();
+	}
+	
+
+	/*Obtener datos de cama para poder editarlos al hacer click, 
+	pero ya que se inicio más arriba, no será necesario el click*/
+	void editFil(){
+		if (am.tamaño() == 0){
+			limpieza();
+		}
+		else{
+			Medicina m =am.obtener(MedicinaTabla.getSelectedRow());
+			txtCod.setText(""+m.getCodigoMedicina());
+			txtNom.setText(m.getNombre());
+			txtLab.setText(m.getLaboratorio());
+			txtPre.setText(""+m.getPrecio());
+			txtStock.setText(""+m.getStock());
+		}
+		
+	}
+	public void mouseClicked(MouseEvent arg0) {
+		if (arg0.getSource() == MedicinaTabla) {
+			mouseClickedMedicinaTabla(arg0);
+		}
+	}
+	public void mouseEntered(MouseEvent arg0) {
+	}
+	public void mouseExited(MouseEvent arg0) {
+	}
+	public void mousePressed(MouseEvent arg0) {
+	}
+	public void mouseReleased(MouseEvent arg0) {
+	}
+	protected void mouseClickedMedicinaTabla(MouseEvent arg0) {
+		dispoDatos(false);
+		dispoBoton(true);
+		editFil();
+	}
 }
