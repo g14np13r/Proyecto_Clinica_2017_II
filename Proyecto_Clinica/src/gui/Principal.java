@@ -225,7 +225,9 @@ public class Principal extends JFrame implements ActionListener {
 		md.setVisible(true);
 	}
 	protected void MenuIt_Internar(ActionEvent arg0) {
-		
+		InternamientoDLG id = new InternamientoDLG();
+		id.setLocationRelativeTo(this);
+		id.setVisible(true);
 	}
 	protected void MenuIt_Atencin(ActionEvent arg0) {
 		AtencionDLG ad = new AtencionDLG();
@@ -235,5 +237,6 @@ public class Principal extends JFrame implements ActionListener {
 	protected void MenuIt_ControlDePagos(ActionEvent arg0) {
 	}
 	protected void MenuIt_GenerarReportes(ActionEvent arg0) {
+		
 	}
 }
