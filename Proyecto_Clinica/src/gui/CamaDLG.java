@@ -398,7 +398,7 @@ public class CamaDLG extends JDialog implements ActionListener, MouseListener {
 			limpieza();
 		}
 		else{
-			Cama c=ac.obtener(CamaTabla.getSelectedRow());
+			Cama c = ac.obtener(CamaTabla.getSelectedRow());
 			txtNum.setText(""+c.getNumeroCama());
 			txtPre.setText(""+c.getPrecioDia());
 			cboEstado.setSelectedItem(""+c.detalleEstado());

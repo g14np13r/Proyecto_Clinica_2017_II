@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import arreglos.*;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -20,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame implements ActionListener {
 
+	
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu mnArchivos;
@@ -35,6 +39,10 @@ public class Principal extends JFrame implements ActionListener {
 	private JMenu mnAyuda;
 	private JMenuItem mntmAcercaDeClinica;
 	private JLabel lblNewLabel;
+	private JMenuItem mntmInternar;
+	private JMenuItem mntmAtencin;
+	private JMenuItem mntmControlDePagos;
+	private JMenuItem mntmGenerarReportes;
 
 	/**
 	 * Launch the application.
@@ -79,7 +87,7 @@ public class Principal extends JFrame implements ActionListener {
 		
 		mnMantenimiento = new JMenu("Mantenimiento");
 		mnMantenimiento.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		mnMantenimiento.setIcon(new ImageIcon(Principal.class.getResource("/img/mantenimiento.png")));
+		mnMantenimiento.setIcon(new ImageIcon(Principal.class.getResource("/img/configuracion.png")));
 		menuBar.add(mnMantenimiento);
 		
 		mntmCama = new JMenuItem("Cama");
@@ -99,23 +107,43 @@ public class Principal extends JFrame implements ActionListener {
 		
 		mnInternamiento = new JMenu("Internamiento");
 		mnInternamiento.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		mnInternamiento.setIcon(new ImageIcon(Principal.class.getResource("/img/configuracion.png")));
+		mnInternamiento.setIcon(new ImageIcon(Principal.class.getResource("/img/mantenimiento.png")));
 		menuBar.add(mnInternamiento);
+		
+		mntmInternar = new JMenuItem("Internar");
+		mntmInternar.addActionListener(this);
+		mntmInternar.setIcon(new ImageIcon(Principal.class.getResource("/img/reportar.png")));
+		mnInternamiento.add(mntmInternar);
 		
 		mnAtencion = new JMenu("Atenci\u00F3n");
 		mnAtencion.setIcon(new ImageIcon(Principal.class.getResource("/img/discount.png")));
 		mnAtencion.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		menuBar.add(mnAtencion);
 		
+		mntmAtencin = new JMenuItem("Atenci\u00F3n");
+		mntmAtencin.addActionListener(this);
+		mntmAtencin.setIcon(new ImageIcon(Principal.class.getResource("/img/registro.png")));
+		mnAtencion.add(mntmAtencin);
+		
 		mnPago = new JMenu("Pago");
 		mnPago.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		mnPago.setIcon(new ImageIcon(Principal.class.getResource("/img/vend.png")));
 		menuBar.add(mnPago);
 		
+		mntmControlDePagos = new JMenuItem("Control de Pagos");
+		mntmControlDePagos.addActionListener(this);
+		mntmControlDePagos.setIcon(new ImageIcon(Principal.class.getResource("/img/controlar.png")));
+		mnPago.add(mntmControlDePagos);
+		
 		mnReporte = new JMenu("Reporte");
 		mnReporte.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		mnReporte.setIcon(new ImageIcon(Principal.class.getResource("/img/report.png")));
 		menuBar.add(mnReporte);
+		
+		mntmGenerarReportes = new JMenuItem("Generar Reportes");
+		mntmGenerarReportes.addActionListener(this);
+		mntmGenerarReportes.setIcon(new ImageIcon(Principal.class.getResource("/img/reportes.png")));
+		mnReporte.add(mntmGenerarReportes);
 		
 		mnAyuda = new JMenu("Ayuda");
 		mnAyuda.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -138,6 +166,18 @@ public class Principal extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 	}
 	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == mntmGenerarReportes) {
+			MenuIt_GenerarReportes(arg0);
+		}
+		if (arg0.getSource() == mntmControlDePagos) {
+			MenuIt_ControlDePagos(arg0);
+		}
+		if (arg0.getSource() == mntmAtencin) {
+			MenuIt_Atencin(arg0);
+		}
+		if (arg0.getSource() == mntmInternar) {
+			MenuIt_Internar(arg0);
+		}
 		if (arg0.getSource() == mntmMedicina) {
 			MenuIt_Medicina(arg0);
 		}
@@ -170,18 +210,30 @@ public class Principal extends JFrame implements ActionListener {
 		
 	}
 	protected void MenuIt_Cama(ActionEvent arg0) {
-		CamaDLG cf = new CamaDLG();
-		cf.setLocationRelativeTo(this);
-		cf.setVisible(true);
+		CamaDLG cd = new CamaDLG();
+		cd.setLocationRelativeTo(this);
+		cd.setVisible(true);
 	}
 	protected void MenuIt_Paciente(ActionEvent arg0) {
-		PacienteDLG pf = new PacienteDLG();
-		pf.setLocationRelativeTo(this);
-		pf.setVisible(true);
+		PacienteDLG pd = new PacienteDLG();
+		pd.setLocationRelativeTo(this);
+		pd.setVisible(true);
 	}
 	protected void MenuIt_Medicina(ActionEvent arg0) {
-		MedicinaDLG mf = new MedicinaDLG();
-		mf.setLocationRelativeTo(this);
-		mf.setVisible(true);
+		MedicinaDLG md = new MedicinaDLG();
+		md.setLocationRelativeTo(this);
+		md.setVisible(true);
+	}
+	protected void MenuIt_Internar(ActionEvent arg0) {
+		
+	}
+	protected void MenuIt_Atencin(ActionEvent arg0) {
+		AtencionDLG ad = new AtencionDLG();
+		ad.setLocationRelativeTo(this);
+		ad.setVisible(true);
+	}
+	protected void MenuIt_ControlDePagos(ActionEvent arg0) {
+	}
+	protected void MenuIt_GenerarReportes(ActionEvent arg0) {
 	}
 }

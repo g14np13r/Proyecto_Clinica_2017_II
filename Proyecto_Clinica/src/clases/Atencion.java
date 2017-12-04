@@ -2,12 +2,13 @@ package clases;
 
 public class Atencion {
 	//Campos o atributos
-	private int codigoAtencion, codigoPaciente, fechaAtencion;
+	private int codigoAtencion, codigoPaciente;
+	private String fechaAtencion;
 	private double totalPagar;
 	private int estado;
 	
 	//Metodo Constructor
-	public Atencion(int codigoAtencion, int codigoPaciente, int fechaAtencion, double totalPagar, int estado) {
+	public Atencion(int codigoAtencion, int codigoPaciente, String fechaAtencion, double totalPagar, int estado) {
 		this.codigoAtencion = codigoAtencion;
 		this.codigoPaciente = codigoPaciente;
 		this.fechaAtencion = fechaAtencion;
@@ -22,7 +23,8 @@ public class Atencion {
 		default:return "Pagado";
 		}
 	}
-
+	
+	
 	//Metodos Setters & Getters. Propiedades de lectura(get return) y escritura(set void)
 	public int getCodigoAtencion() {
 		return codigoAtencion;
@@ -40,11 +42,11 @@ public class Atencion {
 		this.codigoPaciente = codigoPaciente;
 	}
 
-	public int getFechaAtencion() {
+	public String getFechaAtencion() {
 		return fechaAtencion;
 	}
 
-	public void setFechaAtencion(int fechaAtencion) {
+	public void setFechaAtencion(String fechaAtencion) {
 		this.fechaAtencion = fechaAtencion;
 	}
 

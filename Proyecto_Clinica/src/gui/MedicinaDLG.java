@@ -60,7 +60,6 @@ public class MedicinaDLG extends JDialog implements ActionListener, MouseListene
 	public static void main(String[] args) {
 		try {
 			MedicinaDLG dialog = new MedicinaDLG();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,35 +326,48 @@ public class MedicinaDLG extends JDialog implements ActionListener, MouseListene
 					
 			try {
 				double precio = leerPrecio();
-				try {
-					int stock = leerStock();
-					/*Luego de accionar boton ingresar,
-					se añade datos y se habilita*/
-					if (btnIngresar.isEnabled() == false) {
-						Medicina nm = new Medicina(codigo, nombre, lab, precio, stock);
-						am.adicionar(nm);
-						btnIngresar.setEnabled(true);
-						listar();
-						dispoDatos(false);
-					}
-					/*Luego de accionar el boton modificar,
-					se cambia los datos y se habilita*/
-					if (btnModificar.isEnabled() == false) {
-						Medicina m = am.buscar(codigo);
-						m.setCodigoMedicina(codigo);
-						m.setNombre(nombre);
-						m.setLaboratorio(lab);
-						m.setPrecio(precio);
-						m.setStock(stock);
-						btnModificar.setEnabled(true);
-						listar();
-						dispoDatos(false);
-					}
-				} catch (Exception e) {
-					Alerta.mensaje(this, "Ingrese Stock correcto");
-					txtStock.setText("");
-					txtStock.requestFocus();
+				if(precio<0){
+					Alerta.mensaje(this, "Precio no válido");
+					txtPre.setText("");
+					txtPre.requestFocus();
 				}
+					else {
+						try {
+							int stock = leerStock();
+							if (stock<0) {
+								Alerta.mensaje(this, "Cantidad no válida");
+								txtStock.setText("");
+								txtStock.requestFocus();
+							}
+							/*Luego de accionar boton ingresar,
+							se añade datos y se habilita*/
+							else if (btnIngresar.isEnabled() == false) {
+								Medicina nm = new Medicina(codigo, nombre, lab, precio, stock);
+								am.adicionar(nm);
+								btnIngresar.setEnabled(true);
+								listar();
+								dispoDatos(false);
+							}
+							/*Luego de accionar el boton modificar,
+							se cambia los datos y se habilita*/
+							else if (btnModificar.isEnabled() == false) {
+								Medicina m = am.buscar(codigo);
+								m.setCodigoMedicina(codigo);
+								m.setNombre(nombre);
+								m.setLaboratorio(lab);
+								m.setPrecio(precio);
+								m.setStock(stock);
+								btnModificar.setEnabled(true);
+								listar();
+								dispoDatos(false);
+							}
+						}
+						catch (Exception e) {
+							Alerta.mensaje(this, "Ingrese Stock correcto");
+							txtStock.setText("");
+							txtStock.requestFocus();
+						}
+					}
 			} 
 			catch (Exception e) {
 				Alerta.mensaje(this, "Ingrese precio correcto");

@@ -71,6 +71,7 @@ public class PacienteDLG extends JDialog implements ActionListener, MouseListene
 	 * Create the dialog.
 	 */
 	public PacienteDLG() {
+		setModal(true);
 		setTitle("Mantenimiento | Paciente");
 		setBounds(100, 100, 907, 584);
 		getContentPane().setLayout(null);
@@ -245,7 +246,6 @@ public class PacienteDLG extends JDialog implements ActionListener, MouseListene
 		//Autoseleccionado en la tabla
 		if (ap.tamaño() > 0)
 			PacienteTabla.getSelectionModel().setSelectionInterval(posFila, posFila);	
-		
 	}
    	//////////////////////////////////
    	//Métodos con retorno
